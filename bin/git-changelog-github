@@ -2,6 +2,7 @@
 
 if [ "$#" -lt 2 ]; then
 	echo "Usage: git changelog-github owner repository" 
+	exit 1
 fi
 
 git changelog "- %s ([%h](https://github.com/$1/$2/commit/%H))"
