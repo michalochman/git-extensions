@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ "$#" -lt 2 ]; then
+	echo "Usage: git changelog-bitbucket owner repository" 
+fi
+
+git changelog "- %s ([%h](https://bitbucket.org/$1/$2/commits/%H))"
+

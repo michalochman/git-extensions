@@ -1,0 +1,27 @@
+#!/bin/sh
+
+COMMAND="git log --no-merges --format="
+FORMAT="- %s"
+
+if [ "$#" -gt 0 ]; then
+	FORMAT=$1
+fi
+
+git tag | sort -ru | while read TAG; do
+    echo
+    if [ $NEXT ]; then
+        echo \# $NEXT \($(git log -1 --format=%ai $NEXT)\)
+    else
+        echo \# HEAD \($(date +"%Y-%m-%d %H:%M:%S %z")\)
+    fi
+    echo
+    GIT_PAGER=cat $COMMAND"$FORMAT" $TAG..$NEXT
+    NEXT=$TAG
+done
+
+FIRST=$(git tag | head -1)
+echo
+echo \# $FIRST \($(git log -1 --format=%ai $FIRST)\)
+echo
+GIT_PAGER=cat $COMMAND"$FORMAT" $FIRST
+
